@@ -39,3 +39,26 @@ app folder in given directory created using mkdir command and index.js file crea
 
 The file generated using script saved as exercise12_2 in the script-answers.
 
+## Exercise 12.3: Ubuntu 101
+**Task:**
+Use script to record what you do, save the file as script-answers/exercise12_3.txt
+
+Edit the /usr/src/app/index.js file inside the container with the now installed Nano and add the following line
+
+console.log('Hello World')
+If you are not familiar with Nano you can ask for help in the chat or Google.
+
+**Solution:**
+Container started in interactive mode using
+```
+docker start -i musing_goldwasser
+```
+command.
+
+The container name musing_goldwasser taken from 
+```
+ docker container ls -a
+```
+output.
+
+Steps are recorded using script command in script-answers/exercise12_3.txt file.
