@@ -1,7 +1,7 @@
 # FullStack Open - Part12: Introduction to Containers
 Part 12 of the Full Stack online course https://fullstackopen.com/en/part12
 
-## Exercise Exercise 12.1: Using a computer (without graphical user interface)
+## Exercise 12.1: Using a computer (without graphical user interface)
 **Task:**
 Step 1: Read the text below the Warning header.
 
