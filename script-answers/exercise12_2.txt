@@ -1,0 +1,15 @@
+Script started on Tue Feb 14 10:15:56 2023
+[1m[7m%[27m[1m[0m                                                                                                                                                                            [0m[27m[24m[Jrohal@Dominiks-MacBook-Air script-answers % [K[?2004h[7mdocker run -it ubuntu bash[27m[26D[27md[27mo[27mc[27mk[27me[27mr[27m [27mr[27mu[27mn[27m [27m-[27mi[27mt[27m [27mu[27mb[27mu[27mn[27mt[27mu[27m [27mb[27ma[27ms[27mh[?2004l
+]0;root@89e9d564d910: /root@89e9d564d910:/# [K]0;root@89e9d564d910: /root@89e9d564d910:/# cd /usr/s
+sbin/  share/ src/   
+]0;root@89e9d564d910: /root@89e9d564d910:/# cd /usr/src/
+]0;root@89e9d564d910: /usr/srcroot@89e9d564d910:/usr/src# mkdir app
+]0;root@89e9d564d910: /usr/srcroot@89e9d564d910:/usr/src# cd app
+]0;root@89e9d564d910: /usr/src/approot@89e9d564d910:/usr/src/app# touch index.js
+]0;root@89e9d564d910: /usr/src/approot@89e9d564d910:/usr/src/app# ls
+index.js
+]0;root@89e9d564d910: /usr/src/approot@89e9d564d910:/usr/src/app# exit
+exit
+[1m[7m%[27m[1m[0m                                                                                                                                                                            [0m[27m[24m[Jrohal@Dominiks-MacBook-Air script-answers % [K[?2004h[?2004l
+
+Script done on Tue Feb 14 10:16:53 2023
