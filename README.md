@@ -62,3 +62,27 @@ The container name musing_goldwasser taken from
 output.
 
 Steps are recorded using script command in script-answers/exercise12_3.txt file.
+
+## Exercise 12.4: Ubuntu 102
+**Task:**
+Use script to record what you do, save the file as script-answers/exercise12_4.txt
+
+Install Node while inside the container and run the index file with node /usr/src/app/index.js in the container.
+
+The instructions for installing Node are sometimes hard to find, so here is something you can copy-paste:
+```
+curl -sL https://deb.nodesource.com/setup_16.x | bash
+apt install -y nodejs
+```
+You will need to install the curl into the container. It is installed in the same way as you did with nano.
+
+After the installation, ensure that you can run your code inside the container with command
+```
+root@b8548b9faec3:/# node /usr/src/app/index.js
+Hello World
+```
+
+**Solution:**
+I did not need curl to install node.
+
+script command output is in script-answers/exercise12_4.txt file.
