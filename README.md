@@ -148,3 +148,34 @@ docker kill 68cbac90f7e2
 
 ...and copied todo-app/todo-backend/.gitignore content to todo-app/todo-backend/.dockerignore
 
+## Exercise 12.6: Docker compose
+**Task:**
+Create a todo-app/todo-backend/docker-compose.yml file that works with the node application from the previous exercise.
+
+The visit counter is the only feature that is required to be working.
+
+**Solution:**
+created todo-app/todo-backend/docker-compose.yml file with the following content
+
+```
+version: '3.8'            # Version 3.8 is quite new and should work
+
+services:
+  app:                    # The name of the service, can be anything
+    image: todo-backend   # Declares which image to use
+    build: .              # Declares where to build if image is not found
+    ports:                # Declares the ports to publish
+      - 3000:3000
+```
+
+and run 
+```
+docker-compose up
+```
+to build and run the image... tested by visiting 
+```
+http://localhost:3000/
+```
+
+which showed the counter as expected.
+
