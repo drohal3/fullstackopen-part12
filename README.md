@@ -86,3 +86,65 @@ Hello World
 I did not need curl to install node.
 
 script command output is in script-answers/exercise12_4.txt file.
+
+## Exercise 12.5: Containerizing a Node application
+**Task:**
+The repository you cloned or copied in the first exercise contains a todo-app. See the todo-app/todo-backend and read through the README. We will not touch the todo-frontend yet.
+
+- Step 1. Containerize the todo-backend by creating a todo-app/todo-backend/Dockerfile and building an image.
+- Step 2. Run the todo-backend image with the correct ports open. Make sure the visit counter increases when used through a browser in http://localhost:3000/ (or some other port if you configure so)
+
+Tip: Run the application outside of a container to examine it before starting to containerize.
+
+**Solution:**
+
+todo-app/todo-backend Dockerfile:
+```
+FROM node:16
+
+WORKDIR /usr/src/app
+
+COPY --chown=node:node . .
+
+RUN npm ci
+
+ENV DEBUG=playground:*
+
+USER node
+
+CMD npm start
+```
+
+built and run with
+```
+docker build -t todo-backend . && docker run -p 3000:3000 todo-backend
+```
+
+tested by visiting
+```
+http://localhost:3000/
+```
+that outputted
+```
+{"visits":5}
+```
+and the number of visits increased by every page reload.
+
+Stopped with:
+
+running 
+```
+docker container ls
+```
+to list containers which inputs the following
+```
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS                    NAMES
+ba5ba41e49d6   todo-backend   "docker-entrypoint.s…"   31 seconds ago   Up 31 seconds   0.0.0.0:3000->3000/tcp   festive_noether
+```
+and using CONTAINER ID to kill the container
+```
+docker kill 68cbac90f7e2
+```
+
+...and copied todo-app/todo-backend/.gitignore content to todo-app/todo-backend/.dockerignore
+
