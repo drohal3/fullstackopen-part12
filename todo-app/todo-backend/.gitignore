@@ -59,3 +59,6 @@ typings/
 
 # next.js build output
 .next
+
+# persisted data/data stored outside of docker container
+./mongo_data

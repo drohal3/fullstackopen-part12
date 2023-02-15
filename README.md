@@ -179,3 +179,51 @@ http://localhost:3000/
 
 which showed the counter as expected.
 
+## Exercise 12.7: Little bit of MongoDB coding
+**Task:**
+Note that this exercise assumes that you have done all the configurations made in the material after exercise 12.5. You should still run the todo-app backend outside a container; just the MongoDB is containerized for now.
+
+The todo application has no proper implementation of routes for getting one todo (GET /todos/:id) and updating one todo (PUT /todos/:id). Fix the code.
+
+**Solution:**
+
+Run 
+```
+docker-compose -f docker-compose.dev.yml down --volumes
+```
+to ensure that nothing is left and start from a clean slate.
+
+updated todo-app/todo-backend/docker-compose.dev.yml:
+
+```
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    ports:
+      - 3456:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: the_database
+    volumes:
+      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js # bind mount - mongo-init.js in the mongo folder of the host machine is the same as the mongo-init.js file in the container's /docker-entrypoint-initdb.d
+      - ./mongo_data:/data/db # to persist data even after stopping and rerunning container / storing data outside of container
+```
+
+and run
+```
+docker-compose -f docker-compose.dev.yml up
+```
+to initialize the database.
+
+and
+```
+MONGO_URL=mongodb://the_username:the_password@localhost:3456/the_database npm run dev
+```
+
+to run the app with the env variable (from different terminal tabs)
+
+Implemented GET and PUT for getting and updating a single TODO and tested it using Postmen. The data persisted after rerunning mongo container.
+
