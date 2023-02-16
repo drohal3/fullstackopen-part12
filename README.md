@@ -227,3 +227,189 @@ to run the app with the env variable (from different terminal tabs)
 
 Implemented GET and PUT for getting and updating a single TODO and tested it using Postmen. The data persisted after rerunning mongo container.
 
+## Exercise 12.8: Mongo command-line interface
+**Task:**
+Use script to record what you do, save the file as script-answers/exercise12_8.txt
+
+While the MongoDB from the previous exercise is running, access the database with Mongo command-line interface (CLI). You can do that using docker exec. Then add a new todo using the CLI.
+
+The command to open CLI when inside the container is mongosh
+
+The mongo CLI will require the username and password flags to authenticate correctly. Flags -u root -p example should work, the values are from the docker-compose.dev.yml.
+
+- Step 1: Run MongoDB
+- Step 2: Use docker exec to get inside the container
+- Step 3: Open Mongo cli
+
+When you have connected to the mongo cli you can ask it to show dbs inside:
+```
+> show dbs
+admin         0.000GB
+config        0.000GB
+local         0.000GB
+the_database  0.000GB
+```
+To access the correct database:
+```
+> use the_database
+```
+And finally to find out the collections:
+```
+> show collections
+todos
+```
+We can now access the data in those collections:
+```
+> db.todos.find({})
+[
+{
+_id: ObjectId("633c270ba211aa5f7931f078"),
+text: 'Write code',
+done: false
+},
+{
+_id: ObjectId("633c270ba211aa5f7931f079"),
+text: 'Learn about containers',
+done: false
+}
+]
+```
+Insert one new todo with the text: "Increase the number of tools in my toolbelt" with status done as false. Consult the [documentation](https://docs.mongodb.com/v4.4/reference/method/db.collection.insertOne/#mongodb-method-db.collection.insertOne) to see how the addition is done.
+
+Ensure that you see the new todo both in the Express app and when querying from Mongo CLI.
+
+**Solution:**
+While running
+```
+docker-compose -f docker-compose.dev.yml up
+```
+and
+```
+MONGO_URL=mongodb://the_username:the_password@localhost:3456/the_database npm run dev
+```
+(not necessary)
+
+listed containers
+
+```
+docker container ls
+```
+giving output
+```
+CONTAINER ID   IMAGE     COMMAND                  CREATED        STATUS              PORTS                     NAMES
+2ff9444beecd   mongo     "docker-entrypoint.s…"   22 hours ago   Up About a minute   0.0.0.0:3456->27017/tcp   todo-backend-mongo-1
+```
+Using container name to access it:
+
+```
+docker exec -it todo-backend-mongo-1 bash
+```
+
+While inside the container:
+
+```
+mongosh -u root -p example
+```
+to access mongo CLI (the flag values are from the docker-compose.dev.yml)
+
+while inside mongo CLI:
+```
+show dbs
+```
+outputs
+```
+admin         100.00 KiB
+config         60.00 KiB
+local          72.00 KiB
+the_database   56.00 KiB
+```
+To access the correct database running
+```
+use the_database
+```
+To show collections:
+```
+show collections
+```
+which shows the collections in the_database
+```
+todos
+```
+To access data in the todos collection:
+```
+db.todos.find({})
+```
+Outputs:
+```
+[
+  {
+    _id: ObjectId("63ecd2cf38e94d7904e9fb5e"),
+    text: 'Write code - updated',
+    done: false
+  },
+  {
+    _id: ObjectId("63ecd2cf38e94d7904e9fb5f"),
+    text: 'Learn about containers',
+    done: false
+  }
+]
+```
+To insert new todo as given in the exercise task:
+```
+db.todos.insertOne(
+   {
+      text: 'Increase the number of tools in my toolbelt',
+      done: false
+   }
+)
+```
+Confirming that new collection was added:
+```
+db.todos.find({})
+```
+Returns output containing our new todo:
+```
+[
+  {
+    _id: ObjectId("63ecd2cf38e94d7904e9fb5e"),
+    text: 'Write code - updated',
+    done: false
+  },
+  {
+    _id: ObjectId("63ecd2cf38e94d7904e9fb5f"),
+    text: 'Learn about containers',
+    done: false
+  },
+  {
+    _id: ObjectId("63ee0d401ffbae05691db828"),
+    text: 'Increase the number of tools in my toolbelt',
+    done: false
+  }
+]
+```
+Visiting
+```
+http://localhost:3000/todos
+```
+confirms that
+```
+[
+  {
+    "_id": "63ecd2cf38e94d7904e9fb5e",
+    "text": "Write code - updated",
+    "done": false
+  },
+  {
+    "_id": "63ecd2cf38e94d7904e9fb5f",
+    "text": "Learn about containers",
+    "done": false
+  },
+  {
+    "_id": "63ee0d401ffbae05691db828",
+    "text": "Increase the number of tools in my toolbelt",
+    "done": false
+  }
+]
+```
+
+The script output file is script-answers/exercise12_8.txt
