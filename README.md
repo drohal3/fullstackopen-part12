@@ -636,3 +636,68 @@ The statistics endpoint returns:
 {"added_todos":0}
 ```
 which is correct.
+
+## Exercise 12.12: Persisting data in Redis
+**Task:**
+Check that the data is not persisted by default: after running docker-compose -f docker-compose.dev.yml down and docker-compose -f docker-compose.dev.yml up the counter value is reset to 0.
+
+Then create a volume for Redis data (by modifying todo-app/todo-backend/docker-compose.dev.yml ) and make sure that the data survives after running docker-compose -f docker-compose.dev.yml down and docker-compose -f docker-compose.dev.yml up.
+
+**Solution:**
+Created a few todos
+
+Stopped the containers.
+```
+docker-compose -f docker-compose.dev.yml down
+```
+Re-run the containers
+```
+docker-compose -f docker-compose.dev.yml up
+```
+and the counter was reset to 0 which is correct.
+
+Updated docket-compose.dev.yml
+```
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    ports:
+      - 3456:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: the_database
+    volumes:
+      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js # bind mount - mongo-init.js in the mongo folder of the host machine is the same as the mongo-init.js file in the container's /docker-entrypoint-initdb.d
+      - ./mongo_data:/data/db # to persist data even after stopping and rerunning container / storing data outside of container
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    command: [ 'redis-server', '--appendonly', 'yes' ] # Overwrite the CMD
+    volumes: # Declare the volume
+        - ./redis_data:/data
+```
+
+created few todos
+
+statistics endpoint returns
+
+```
+{"added_todos":5}
+```
+
+shutting down containers
+```
+docker-compose -f docker-compose.dev.yml down
+```
+, starting them up
+```
+docker-compose -f docker-compose.dev.yml up  
+```
+checking the statistics endpoint  and the output confirms that the redis memory is persistant now
+```
+{"added_todos":5}
+```

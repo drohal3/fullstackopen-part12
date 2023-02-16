@@ -62,3 +62,6 @@ typings/
 
 # persisted data/data stored outside of docker container
 ./mongo_data
+
+# redis data stored outside of docker container
+./redis_data
