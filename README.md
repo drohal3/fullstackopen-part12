@@ -539,3 +539,100 @@ usage example:
 await setAsync('added_todos', Number((await getAsync('added_todos') ?? 0)) + 1);
 ```
 
+## Exercise 12.11:
+**Task:**
+Use script to record what you do, save the file as script-answers/exercise12_11.txt
+
+If the application does not behave as expected, a direct access to the database may be beneficial in pinpointing problems. Let us try out how [redis-cli](https://redis.io/topics/rediscli) can be used to access the database.
+
+- Go to the Redis container with docker exec and open the redis-cli.
+- Find the key you used with [KEYS *](https://redis.io/commands/keys)
+- Check the value of the key with command [GET](https://redis.io/commands/get)
+- Set the value of the counter to 9001, find the right command from [here](https://redis.io/commands/)
+- Make sure that the new value works by refreshing the page http://localhost:3000/statistics
+- Create a new todo with Postman and ensure from redis-cli that the counter has increased accordingly
+- Delete the key from cli and ensure that counter works when new todos are added
+
+**Solution**
+Running
+```
+docker container ls
+```
+To get redis container name. Output:
+```
+CONTAINER ID   IMAGE     COMMAND                  CREATED        STATUS          PORTS                     NAMES
+91ff2c9afd07   redis     "docker-entrypoint.s…"   2 hours ago    Up 51 minutes   0.0.0.0:6379->6379/tcp    todo-backend-redis-1
+2ff9444beecd   mongo     "docker-entrypoint.s…"   25 hours ago   Up 51 minutes   0.0.0.0:3456->27017/tcp   todo-backend-mongo-1
+```
+
+Accessing the redis container:
+```
+docker exec -it todo-backend-redis-1 bash
+```
+
+Accessing redis CLI by running:
+```
+redis-cli
+```
+inside the container.
+
+Listing all keys and their values saved in redis.
+
+```
+KEYS *
+```
+Output:
+```
+1) "added_todos"
+2) "key"
+```
+Checking value of "added_todos":
+```
+GET added_todos
+```
+Which returns:
+```
+"32"
+```
+Using [SET](https://redis.io/commands/set/)
+to set "added_todos" to 9001 by running
+```
+SET added_todos 9001
+```
+Verifying by running 
+```
+GET added_todos
+```
+which outputs correct value
+```
+"9001"
+```
+also visiting URL
+```
+http://localhost:3000/todos/statistics
+```
+Note: the URL should probably be http://localhost:3000/statistics, but that is probably only a detail. It is only about in which router it is implemented.
+
+```
+{"added_todos":9001}
+```
+New todo created using Postman and the value got incremented by one:
+```
+{"added_todos":9002}
+```
+
+Key deleted with
+```
+DEL added_todos
+```
+and verified with
+```
+KEYS *
+```
+that did not return the deleted key.
+
+The statistics endpoint returns:
+```
+{"added_todos":0}
+```
+which is correct.
