@@ -502,3 +502,40 @@ REDIS_URL=redis://localhost:6379 MONGO_URL=mongodb://the_username:the_password@l
 
 No error shown in terminal, everything should work as expected.
 
+## Exercise 12.10:
+**Task:**
+The project already has https://www.npmjs.com/package/redis installed and two functions "promisified" - getAsync and setAsync.
+
+ - setAsync function takes in key and value, using the key to store the value.
+ - getAsync function takes in key and returns the value in a promise.
+
+Implement a todo counter that saves the number of created todos to Redis:
+
+- Step 1: Whenever a request is sent to add a todo, increment the counter by one.
+- Step 2: Create a GET /statistics endpoint where you can ask the usage metadata. The format should be the following JSON:
+```
+{
+"added_todos": 0
+}
+```
+
+**Solution:**
+Implemented as instructed.
+
+```
+http://127.0.0.1:3000/todos/statistics
+```
+
+returns number of added todos, i.e.:
+```
+{"added_todos":32}
+```
+
+The number of added todos is saved in redis under key added_todos
+
+usage example:
+
+```
+await setAsync('added_todos', Number((await getAsync('added_todos') ?? 0)) + 1);
+```
+
