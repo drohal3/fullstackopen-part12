@@ -413,3 +413,92 @@ confirms that
 ```
 
 The script output file is script-answers/exercise12_8.txt
+
+## Exercise 12.9: Set up Redis for the project
+The Express server has already been configured to use Redis, and it is only missing the REDIS_URL environment variable. The application will use that environment variable to connect to the Redis. Read through the Docker Hub page for Redis, add Redis to the todo-app/todo-backend/docker-compose.dev.yml by defining another service after mongo:
+```
+services:
+mongo:
+...
+redis:
+???
+```
+Since the Docker Hub page doesn't have all the info, we can use Google to aid us. The default port for Redis is found by doing so:
+
+Port 6379
+
+We won't have any idea if the configuration works unless we try it. The application will not start using Redis by itself, that shall happen in next exercise.
+
+Once Redis is configured and started, restart the backend and give it the REDIS_URL, that has the form redis://host:port
+```
+$ REDIS_URL=insert-redis-url-here MONGO_URL=mongodb://the_username:the_password@localhost:3456/the_database npm run dev
+```
+You can now test the configuration by adding the line
+```
+const redis = require('../redis')
+```
+to the Express server eg. in file routes/index.js. If nothing happens, the configuration is done right. If not, the server crashes:
+```
+events.js:291
+throw er; // Unhandled 'error' event
+^
+
+Error: Redis connection to localhost:637 failed - connect ECONNREFUSED 127.0.0.1:6379
+at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1144:16)
+Emitted 'error' event on RedisClient instance at:
+at RedisClient.on_error (/Users/mluukkai/opetus/docker-fs/container-app/express-app/node_modules/redis/index.js:342:14)
+at Socket.<anonymous> (/Users/mluukkai/opetus/docker-fs/container-app/express-app/node_modules/redis/index.js:223:14)
+at Socket.emit (events.js:314:20)
+at emitErrorNT (internal/streams/destroy.js:100:8)
+at emitErrorCloseNT (internal/streams/destroy.js:68:3)
+at processTicksAndRejections (internal/process/task_queues.js:80:21) {
+errno: -61,
+code: 'ECONNREFUSED',
+syscall: 'connect',
+address: '127.0.0.1',
+port: 6379
+}
+[nodemon] app crashed - waiting for file changes before starting...
+```
+
+**Solution:**
+added
+```
+const redis = require('../redis')
+```
+to todo-app/dodo-backend/routes/index.js
+
+re-run
+```
+docker-compose -f docker-compose.dev.yml up
+```
+
+configured redis in todo-app/todo-backend/docker-compose.dev.yaml
+```
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    ports:
+      - 3456:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: the_database
+    volumes:
+      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js # bind mount - mongo-init.js in the mongo folder of the host machine is the same as the mongo-init.js file in the container's /docker-entrypoint-initdb.d
+      - ./mongo_data:/data/db # to persist data even after stopping and rerunning container / storing data outside of container
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+```
+
+and started the express app:
+```
+REDIS_URL=redis://localhost:6379 MONGO_URL=mongodb://the_username:the_password@localhost:3456/the_database npm run dev
+```
+
+No error shown in terminal, everything should work as expected.
+
