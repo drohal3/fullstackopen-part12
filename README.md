@@ -701,3 +701,62 @@ checking the statistics endpoint  and the output confirms that the redis memory 
 ```
 {"added_todos":5}
 ```
+
+## Exercise 12.13: Todo application frontend
+**Task:**
+Finally, we get to the todo-frontend. View the todo-app/todo-frontend and read through the README.
+
+Start by running the frontend outside the container and ensure that it works with the backend.
+
+Containerize the application by creating todo-app/todo-frontend/Dockerfile and use [ENV](https://docs.docker.com/engine/reference/builder/#env) instruction to pass REACT_APP_BACKEND_URL to the application and run it with the backend. The backend should still be running outside a container. Note that you need to set REACT_APP_BACKEND_URL before running/building the frontend, otherwise it does not get defined in the code!
+
+**Solution:**
+
+Installed dependencies by running
+```
+npm install
+```
+
+and running/testing outside of container by running
+```
+REACT_APP_BACKEND_URL=http://127.0.0.1:3000/ npm start
+```
+to ensure everything works ok.
+
+Used ```RUN npm istall``` instead of ```RUN npm ci``` in Dockerfile due to an error.
+and ENV <key>=<value> to set the backend URL
+Dockerfile:
+```
+# The first FROM is now a stage called build-stage
+FROM node:16 AS build-stage
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+RUN npm install
+
+# backend URL
+ENV REACT_APP_BACKEND_URL=http://127.0.0.1:3000/
+
+RUN npm run build
+
+# This is a new stage, everything before this is gone, except the files we want to COPY
+FROM nginx:1.20-alpine
+
+# COPY the directory build from build-stage to /usr/share/nginx/html
+# The target location here was found from the docker hub page
+COPY --from=build-stage /usr/src/app/build /usr/share/nginx/html
+```
+and copied .dockerignore file from the backend
+
+run with the command
+```
+docker build -t todo-frontend . && docker run -p 8000:80 todo-frontend
+```
+
+and accessed from browser under the following URL
+```
+http://127.0.0.1:8000/
+```
+which worked.
