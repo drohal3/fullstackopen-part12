@@ -760,3 +760,62 @@ and accessed from browser under the following URL
 http://127.0.0.1:8000/
 ```
 which worked.
+
+## Exercise 12.14: Testing during the build process
+**Task:**
+One interesting possibility to utilize multi-stage builds is to use a separate build stage for [testing](https://docs.docker.com/language/nodejs/run-tests/). If the testing stage fails, the whole build process will also fail. Note that it may not be the best idea to move all testing to be done during the building of an image, but there may be some containerization-related tests where this might be a good idea.
+
+Extract a component Todo that represents a single todo. Write a test for the new component and add running tests into the build process.
+
+Run the tests with CI=true npm test. Without the env CI=true set, the create-react-app will start watching for changes and your pipeline will get stuck.
+
+You can add a new build stage for the test if you wish to do so. If you do so, remember to read the last paragraph before exercise 12.13 again!
+
+**Solution:**
+
+Refactored the TodoList component and extracted a single Todo to its own component:
+```
+const TodoList = ({ todos, deleteTodo, completeTodo }) => {
+  return (
+    <>
+      {todos.map(todo => {
+        return (<Todo todo={todo} completeTodo={completeTodo} deleteTodo={deleteTodo} />)
+      }).reduce((acc, cur) => [...acc, <hr />, cur], [])}
+    </>
+  )
+}
+```
+
+*NOTE:* Needed to copy build from test stage to the last stage. Otherwise the tests would be skipped (bcs the optimization).
+Dockerfile:
+```
+# The first FROM is now a stage called build-stage
+FROM node:16 AS base
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+RUN npm instal
+
+# backend URL
+ENV REACT_APP_BACKEND_URL=http://127.0.0.1:3000/
+
+RUN npm run build
+
+FROM base as test
+
+COPY . .
+
+RUN CI=true npm run test
+
+# This is a new stage, everything before this is gone, except the files we want to COPY
+FROM nginx:1.20-alpine
+
+# COPY the directory build from build-stage to /usr/share/nginx/html
+# The target location here was found from the docker hub page
+COPY --from=test /usr/src/app/build /usr/share/nginx/html
+# build copied from test to force docker to not skip the stage and run the tests
+```
+
+Both, failed and successful tests worked as expected. Failed tests prevented the final stage from being executed.
