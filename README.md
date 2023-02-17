@@ -819,3 +819,13 @@ COPY --from=test /usr/src/app/build /usr/share/nginx/html
 ```
 
 Both, failed and successful tests worked as expected. Failed tests prevented the final stage from being executed.
+
+## Exercise 12.15: Set up a frontend development environment
+**Task:**
+Create todo-frontend/docker-compose.dev.yml and use volumes to enable the development of the todo-frontend while it is running inside a container.
+
+**Solution:**
+Created docker-compose.dev.yml and dev.Dockerfile for the todo-frontend app enabling running it in developer mode. 
+
+*Frontend and backend in containers are not communicating with each other yet.*
+
