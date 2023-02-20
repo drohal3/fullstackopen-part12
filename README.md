@@ -829,3 +829,72 @@ Created docker-compose.dev.yml and dev.Dockerfile for the todo-frontend app enab
 
 *Frontend and backend in containers are not communicating with each other yet.*
 
+## Exercise 12.16: Run todo-backend in a development container
+**Task:**
+Use volumes and Nodemon to enable the development of the todo app backend while it is running inside a container. Create a todo-backend/dev.Dockerfile and edit the todo-backend/docker-compose.dev.yml.
+
+You will also need to rethink the connections between backend and MongoDB / Redis. Thankfully Docker Compose can include environment variables that will be passed to the application:
+```
+services:
+server:
+image: ...
+volumes:
+- ...
+ports:
+- ...
+environment:
+- REDIS_URL=redisurl_here
+- MONGO_URL=mongourl_here
+```
+The URLs are purposefully wrong, you will need to set the correct values. Remember to look all the time what happens in console. If and when things blow up, the error messages hint at what might be broken.
+
+**Solution:**
+Updated docker-compose.dev.yaml for the backend application.
+
+```
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - 3456:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: the_database
+    volumes:
+      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js # bind mount - mongo-init.js in the mongo folder of the host machine is the same as the mongo-init.js file in the container's /docker-entrypoint-initdb.d
+      - ./mongo_data:/data/db # to persist data even after stopping and rerunning container / storing data outside of container
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    command: [ 'redis-server', '--appendonly', 'yes' ] # Overwrite the CMD
+    volumes: # Declare the volume
+        - ./redis_data:/data
+  debug-helper:
+    image: busybox
+  server:
+    image: todo-backend-dev
+    ports:
+      - 3000:3000
+    build:
+      context: . # The context will pick this directory as the "build context"
+      dockerfile: dev.Dockerfile # This will simply tell which dockerfile to read
+    environment:
+      REDIS_URL: redis://redis:6379
+      MONGO_URL: mongodb://the_username:the_password@mongo:27017/the_database # THE port mapping - container port must be used!
+    volumes: # Declare the volume
+      - ./:/usr/src/app
+    container_name: todo-backend-dev
+
+```
+
+*Note:* Did not manage to make debug-helper work.
+
+***Note:*** Notice the REDIS_URL and MONGO_URL, especially their ports!
+i.e. ```mongodb://the_username:the_password@mongo:27017/the_database``` uses 27017, which is port used inside the container. The containers share network and hence can communicate with each other.
+
+Other parts of the URLs are also worth inspecting!
