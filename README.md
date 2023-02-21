@@ -1111,3 +1111,24 @@ Make sure that the development environment is now fully functional, that is:
 
 **Solution:**
 Already done while working on the previous exercises. Tested the functionality of the frontend and it worked well. The frontend also communicated with the backend.
+
+## Exercise 12.20:
+**Task:**
+Create a production todo-app/docker-compose.yml with all of the services, Nginx, todo-backend, todo-frontend, MongoDB and Redis. Use Dockerfiles instead of dev.Dockerfiles and make sure to start the applications in production mode.
+
+Please use the following structure for this exercise:
+```
+todo-app
+├── todo-frontend
+├── todo-backend
+├── nginx.conf
+├── docker-compose.dev.yml
+└── docker-compose.yml
+```
+
+**Solution:**
+todo-frontend is a multi-stage built and static content is served by its own nginx container - port needed tobe changed to 80.
+
+***NOTE:*** it is worth inspecting nginx.conf and docker-compose.yml files and changes in them (check the commits and the exercise-12-20 branch).
+
+At the moment, nginx.conf (app:<port>) file is different for production and development!
