@@ -963,3 +963,137 @@ in todo-app root nd started with ```docker-compose -f docker-compose.dev.yml up`
 
 frontend app is accessible from http://127.0.0.1:8080/ . However, it does not communicate with the backend yet.
 
+## Exercise 12.18: Configure the Nginx server to be in front of todo-backend
+Add the service todo-backend to the docker-compose file todo-app/docker-compose.dev.yml in development mode.
+
+Add a new location to the nginx.conf so that requests to /api are proxied to the backend. Something like this should do the trick:
+```
+server {
+listen 80;
+
+    # Requests starting with root (/) are handled
+    location / {
+      # The following 3 lines are required for the hot loading to work (websocket).
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection 'upgrade';
+      
+      # Requests are directed to http://localhost:3000
+      proxy_pass http://localhost:3000;
+    }
+
+    # Requests starting with /api/ are handled
+    location /api/ {
+      ...
+    }
+}
+```
+The proxy_pass directive has an interesting feature with a trailing slash. As we are using the path /api for location but the backend application only answers in paths / or /todos we will want the /api to be removed from the request. In other words, even though the browser will send a GET request to /api/todos/1 we want the Nginx to proxy the request to /todos/1. Do this by adding a trailing slash / to the URL at the end of proxy_pass.
+
+This is a [common issue](https://serverfault.com/questions/562756/how-to-remove-the-path-with-an-nginx-proxy-pass)
+
+**Solution:**
+updated docker-compose.dev.yaml in the root todo-app directory
+```
+services:
+#  frontend
+  app:
+    image: todo-frontend-dev
+    build:
+      context: . # The context will pick this directory as the "build context"
+      dockerfile: ./todo-frontend/dev.Dockerfile # This will simply tell which dockerfile to read
+    volumes:
+      - ./todo-frontend/:/usr/src/app # The path can be relative, so ./ is enough to say "the same location as the docker-compose.yml"
+    ports:
+      - 3001:3000
+    container_name: todo-frontend-dev # This will name the container hello-front-dev
+    environment:
+      - REACT_APP_BACKEND_URL=http://localhost:8080/api
+
+#  backend
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - 3456:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: the_database
+    volumes:
+      - ./todo-backend/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js # bind mount - mongo-init.js in the mongo folder of the host machine is the same as the mongo-init.js file in the container's /docker-entrypoint-initdb.d
+      - ./mongo_data:/data/db # to persist data even after stopping and rerunning container / storing data outside of container
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    command: [ 'redis-server', '--appendonly', 'yes' ] # Overwrite the CMD
+    volumes: # Declare the volume
+      - ./todo-backend/redis_data:/data
+#  debug-helper:
+#    image: busybox
+  server:
+    image: todo-backend-dev
+    ports:
+      - 3000:3000
+    build:
+      context: . # The context will pick this directory as the "build context"
+      dockerfile: ./todo-backend/dev.Dockerfile # This will simply tell which dockerfile to read
+    environment:
+      REDIS_URL: redis://redis:6379
+      MONGO_URL: mongodb://the_username:the_password@mongo:27017/the_database # THE port mapping - container port must be used!
+    volumes: # Declare the volume
+      - ./todo-backend/:/usr/src/app
+    container_name: todo-backend-dev
+
+
+#  reverse proxy
+  nginx:
+    image: nginx:1.20.1
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    container_name: reverse-proxy
+    depends_on:
+      - app
+      - server
+```
+
+and updated nginx.conf in the same location
+```
+# events is required, but defaults are ok
+events { }
+
+# A http server, listening at port 80
+http {
+  server {
+    listen 80;
+
+    # Requests starting with root (/) are handled
+    location / {
+      # The following 3 lines are required for the hot loading to work (websocket).
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection 'upgrade';
+
+      # Requests are directed to http://localhost:3000
+      proxy_pass http://app:3000;
+    }
+    # Requests starting with /api/ are handled
+    location /api/ {
+      # The following 3 lines are required for the hot loading to work (websocket).
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection 'upgrade';
+
+      proxy_pass http://server:3000/; # the / behind URL is important
+    }
+  }
+}
+```
+started with ```docker-compose -f docker-compose.dev.yml up``` from the todo-app root directory
+frontend accessed under http://127.0.0.1:8080/
+backend statistics accessed via http://127.0.0.1:8080/api/todos/statistics/
+the nginx recognises /api part and passes request to the backend. The / at the end of the configured url takes care of passing the path that follows after it.
+
