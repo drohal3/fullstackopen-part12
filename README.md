@@ -891,6 +891,7 @@ services:
     container_name: todo-backend-dev
 
 ```
+Launched with ```docker-compose -f docker-compose.dev.yml up``` in the todo-backend root directory.
 
 *Note:* Did not manage to make debug-helper work.
 
@@ -898,3 +899,67 @@ services:
 i.e. ```mongodb://the_username:the_password@mongo:27017/the_database``` uses 27017, which is port used inside the container. The containers share network and hence can communicate with each other.
 
 Other parts of the URLs are also worth inspecting!
+
+## Exercise 12.17: Set up an Nginx reverse proxy server in front of todo-frontend
+**Task:**
+We are going to put the nginx server in front of both todo-frontend and todo-backend. Let's start by creating a new docker-compose file todo-app/docker-compose.dev.yml and todo-app/nginx.conf.
+```
+todo-app
+├── todo-frontend
+├── todo-backend
+├── nginx.conf
+└── docker-compose.dev.yml
+```
+Add the services nginx and todo-frontend built with todo-app/todo-frontend/dev.Dockerfile into the todo-app/docker-compose.dev.yml.
+
+**Solution:**
+Created docket-compose.dev.yaml
+```
+services:
+  app:
+    image: todo-frontend-dev
+    build:
+      context: . # The context will pick this directory as the "build context"
+      dockerfile: ./todo-frontend/dev.Dockerfile # This will simply tell which dockerfile to read
+    volumes:
+      - ./todo-frontend/:/usr/src/app # The path can be relative, so ./ is enough to say "the same location as the docker-compose.yml"
+    ports:
+      - 3001:3000
+    container_name: todo-frontend-dev # This will name the container hello-front-dev
+  nginx: # reverse proxy
+    image: nginx:1.20.1
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    container_name: reverse-proxy
+    depends_on:
+      - app
+```
+and nginx.conf
+```
+# events is required, but defaults are ok
+events { }
+
+# A http server, listening at port 80
+http {
+  server {
+    listen 80;
+
+    # Requests starting with root (/) are handled
+    location / {
+      # The following 3 lines are required for the hot loading to work (websocket).
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection 'upgrade';
+
+      # Requests are directed to http://localhost:3000
+      proxy_pass http://app:3000;
+    }
+  }
+}
+```
+in todo-app root nd started with ```docker-compose -f docker-compose.dev.yml up``` run from the todo-app root directory.
+
+frontend app is accessible from http://127.0.0.1:8080/ . However, it does not communicate with the backend yet.
+
