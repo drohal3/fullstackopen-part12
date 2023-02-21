@@ -1097,3 +1097,17 @@ frontend accessed under http://127.0.0.1:8080/
 backend statistics accessed via http://127.0.0.1:8080/api/todos/statistics/
 the nginx recognises /api part and passes request to the backend. The / at the end of the configured url takes care of passing the path that follows after it.
 
+## Exercise 12.19: Connect the services, todo-frontend with todo-backend
+**Task:**
+In this exercise, submit the entire development environment, including both Express and React applications, Dockerfiles and docker-compose.yml.
+
+Make sure that the todo-frontend works with todo-backend. It will require changes to the REACT_APP_BACKEND_URL environmental variable.
+
+If you already got this working during a previous exercise you may skip this.
+
+Make sure that the development environment is now fully functional, that is:
+- all features of the todo app work
+- you can edit the source files and the changes take effect through hot reload in case of frontend and by reloading the app in case of backend
+
+**Solution:**
+Already done while working on the previous exercises. Tested the functionality of the frontend and it worked well. The frontend also communicated with the backend.
