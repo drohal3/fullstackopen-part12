@@ -1132,3 +1132,19 @@ todo-frontend is a multi-stage built and static content is served by its own ngi
 ***NOTE:*** it is worth inspecting nginx.conf and docker-compose.yml files and changes in them (check the commits and the exercise-12-20 branch).
 
 At the moment, nginx.conf (app:<port>) file is different for production and development!
+
+
+## Exercise 12.21:
+**Task:**
+Create a similar containerized development environment of one of your own full stack apps that you have created during the course or in your free time. You should structure the app in your submission repository as follows:
+```
+└── my-app
+├── frontend
+|    └── dev.Dockerfile
+├── backend
+|    └── dev.Dockerfile
+└── docker-compose.dev.yml
+```
+
+**Solution:**
+TODO:
