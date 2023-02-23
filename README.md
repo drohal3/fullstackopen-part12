@@ -1148,3 +1148,20 @@ Create a similar containerized development environment of one of your own full s
 
 **Solution:**
 Implemented as previous exercises. Needed to solve problems with websockets and file mounting.
+
+## Exercise 12.22:
+**Task:**
+Finish this part by creating a containerized production setup of your own full stack app. Structure the app in your submission repository as follows:
+```
+└── my-app
+├── frontend
+|    ├── dev.Dockerfile
+|    └── Dockerfile
+├── backend
+|    └── dev.Dockerfile
+|    └── Dockerfile
+├── docker-compose.dev.yml
+└── docker-compose.yml
+```
+
+**Solution:**
