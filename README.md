@@ -1147,4 +1147,4 @@ Create a similar containerized development environment of one of your own full s
 ```
 
 **Solution:**
-TODO:
+Implemented as previous exercises. Needed to solve problems with websockets and file mounting.
