@@ -1,0 +1,33 @@
+{
+  "name": "bloglist-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node src/index",
+    "dev": "cross-env NODE_ENV=development nodemon src/index",
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
+    "start:test": "cross-env NODE_ENV=test node index.js"
+  },
+  "author": "Dominik Rohal",
+  "license": "ISC",
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "jest": "^29.0.3",
+    "nodemon": "^2.0.20",
+    "supertest": "^6.2.4"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "mongoose": "^6.6.1"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testTimeout": 40000
+  }
+}

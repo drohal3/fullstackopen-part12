@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - 3456:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: the_database
+    volumes:
+      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js # bind mount - mongo-init.js in the mongo folder of the host machine is the same as the mongo-init.js file in the container's /docker-entrypoint-initdb.d
+      - ./mongo_data:/data/db # to persist data even after stopping and rerunning container / storing data outside of container
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    command: [ 'redis-server', '--appendonly', 'yes' ] # Overwrite the CMD
+    volumes: # Declare the volume
+        - ./redis_data:/data
+  debug-helper:
+    image: busybox
+  server:
+    image: todo-backend-dev
+    ports:
+      - 3000:3000
+    build:
+      context: . # The context will pick this directory as the "build context"
+      dockerfile: dev.Dockerfile # This will simply tell which dockerfile to read
+    environment:
+      REDIS_URL: redis://redis:6379
+      MONGO_URL: mongodb://the_username:the_password@mongo:27017/the_database # THE port mapping - container port must be used!
+    volumes: # Declare the volume
+      - ./:/usr/src/app
+    container_name: todo-backend-dev

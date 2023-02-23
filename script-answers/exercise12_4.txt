@@ -1,0 +1,147 @@
+Script started on Tue Feb 14 10:51:07 2023
+[1m[7m%[27m[1m[0m                                                                                                                                                                            [0m[27m[24m[Jrohal@Dominiks-MacBook-Air script-answers % [K[?2004h[7mdocker start -i musing_goldwasser[27m[33D[27md[27mo[27mc[27mk[27me[27mr[27m [27ms[27mt[27ma[27mr[27mt[27m [27m-[27mi[27m [27mm[27mu[27ms[27mi[27mn[27mg[27m_[27mg[27mo[27ml[27md[27mw[27ma[27ms[27ms[27me[27mr[?2004l
+]0;root@89e9d564d910: /root@89e9d564d910:/# [K]0;root@89e9d564d910: /root@89e9d564d910:/# cd /usr/src/app/
+]0;root@89e9d564d910: /usr/src/approot@89e9d564d910:/usr/src/app# ls
+index.js
+]0;root@89e9d564d910: /usr/src/approot@89e9d564d910:/usr/src/app# node -v
+bash: node: command not found
+]0;root@89e9d564d910: /usr/src/approot@89e9d564d910:/usr/src/app# apt install nodejs
+Reading package lists... 0%Reading package lists... 0%Reading package lists... 0%Reading package lists... 6%Reading package lists... 6%Reading package lists... 6%Reading package lists... 6%Reading package lists... 66%Reading package lists... 66%Reading package lists... 67%Reading package lists... 67%Reading package lists... 78%Reading package lists... 78%Reading package lists... 78%Reading package lists... 78%Reading package lists... 85%Reading package lists... 85%Reading package lists... 85%Reading package lists... 85%Reading package lists... 85%Reading package lists... 85%Reading package lists... 85%Reading package lists... 85%Reading package lists... 94%Reading package lists... 94%Reading package lists... 94%Reading package lists... 94%Reading package lists... 99%Reading package lists... 99%Reading package lists... 99%Reading package lists... 99%Reading package lists... Done
+Building dependency tree... 0%Building dependency tree... 0%Building dependency tree... 50%Building dependency tree... 50%Building dependency tree       
+Reading state information... 0%Reading state information... 0%Reading state information... Done
+The following additional packages will be installed:
+  ca-certificates libc-ares2 libicu66 libnghttp2-14 libnode64 libssl1.1 libuv1 nodejs-doc openssl tzdata
+Suggested packages:
+  npm
+The following NEW packages will be installed:
+  ca-certificates libc-ares2 libicu66 libnghttp2-14 libnode64 libssl1.1 libuv1 nodejs nodejs-doc openssl tzdata
+0 upgraded, 11 newly installed, 0 to remove and 30 not upgraded.
+Need to get 17.2 MB of archives.
+After this operation, 73.4 MB of additional disk space will be used.
+Do you want to continue? [Y/n] Y
+[33m0% [Working][0m            Get:1 http://ports.ubuntu.com/ubuntu-ports focal-updates/main arm64 libssl1.1 arm64 1.1.1f-1ubuntu2.17 [1158 kB]
+[33m0% [1 libssl1.1 14.2 kB/1158 kB 1%][0m[33m                                   7% [Working][0m            Get:2 http://ports.ubuntu.com/ubuntu-ports focal-updates/main arm64 openssl arm64 1.1.1f-1ubuntu2.17 [599 kB]
+[33m7% [2 openssl 8435 B/599 kB 1%][0m[33m                               12% [Working][0m             Get:3 http://ports.ubuntu.com/ubuntu-ports focal-updates/main arm64 ca-certificates all 20211016ubuntu0.20.04.1 [141 kB]
+[33m12% [3 ca-certificates 4096 B/141 kB 3%][0m[33m                                        14% [Waiting for headers][0m                         Get:4 http://ports.ubuntu.com/ubuntu-ports focal-updates/main arm64 tzdata all 2022g-0ubuntu0.20.04.1 [286 kB]
+[33m14% [4 tzdata 10.8 kB/286 kB 4%][0m[33m                                17% [Waiting for headers][0m                         Get:5 http://ports.ubuntu.com/ubuntu-ports focal-updates/main arm64 libicu66 arm64 66.1-2ubuntu2.1 [8360 kB]
+[33m17% [5 libicu66 7394 B/8360 kB 0%][0m[33m52% [5 libicu66 7384 kB/8360 kB 88%][0m[33m                                    58% [Waiting for headers][0m                         Get:6 http://ports.ubuntu.com/ubuntu-ports focal-updates/main arm64 libuv1 arm64 1.34.2-1ubuntu1.3 [75.1 kB]
+[33m58% [6 libuv1 6767 B/75.1 kB 9%][0m[33m                                60% [Working][0m             Get:7 http://ports.ubuntu.com/ubuntu-ports focal/main arm64 libnghttp2-14 arm64 1.40.0-1build1 [74.7 kB]
+[33m60% [7 libnghttp2-14 0 B/74.7 kB 0%][0m[33m                                    63% [Waiting for headers][0m                         Get:8 http://ports.ubuntu.com/ubuntu-ports focal-updates/main arm64 libc-ares2 arm64 1.15.0-1ubuntu0.1 [36.6 kB]
+[33m63% [8 libc-ares2 7167 B/36.6 kB 20%][0m[33m                                     65% [Waiting for headers][0m                         Get:9 http://ports.ubuntu.com/ubuntu-ports focal/universe arm64 libnode64 arm64 10.19.0~dfsg-3ubuntu1 [5440 kB]
+[33m65% [9 libnode64 16.2 kB/5440 kB 0%][0m[33m                                    92% [Waiting for headers][0m                         Get:10 http://ports.ubuntu.com/ubuntu-ports focal/universe arm64 nodejs-doc all 10.19.0~dfsg-3ubuntu1 [942 kB]
+[33m92% [10 nodejs-doc 11.8 kB/942 kB 1%][0m[33m                                     98% [Waiting for headers][0m                         Get:11 http://ports.ubuntu.com/ubuntu-ports focal/universe arm64 nodejs arm64 10.19.0~dfsg-3ubuntu1 [61.2 kB]
+[33m98% [11 nodejs 25.0 kB/61.2 kB 41%][0m[33m                                   100% [Working][0m              Fetched 17.2 MB in 2s (10.8 MB/s)
+debconf: delaying package configuration, since apt-utils is not installed
+
+7[0;10r8[1ASelecting previously unselected package libssl1.1:arm64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 4187 files and directories currently installed.)
+Preparing to unpack .../00-libssl1.1_1.1.1f-1ubuntu2.17_arm64.deb ...
+7[11;0f[42m[30mProgress: [  0%][49m[39m [......................................................................................................................................................] 87[11;0f[42m[30mProgress: [  2%][49m[39m [###...................................................................................................................................................] 8Unpacking libssl1.1:arm64 (1.1.1f-1ubuntu2.17) ...
+7[11;0f[42m[30mProgress: [  4%][49m[39m [######................................................................................................................................................] 8Selecting previously unselected package openssl.
+Preparing to unpack .../01-openssl_1.1.1f-1ubuntu2.17_arm64.deb ...
+7[11;0f[42m[30mProgress: [  7%][49m[39m [#########.............................................................................................................................................] 8Unpacking openssl (1.1.1f-1ubuntu2.17) ...
+7[11;0f[42m[30mProgress: [  9%][49m[39m [#############.........................................................................................................................................] 8Selecting previously unselected package ca-certificates.
+Preparing to unpack .../02-ca-certificates_20211016ubuntu0.20.04.1_all.deb ...
+7[11;0f[42m[30mProgress: [ 11%][49m[39m [################......................................................................................................................................] 8Unpacking ca-certificates (20211016ubuntu0.20.04.1) ...
+7[11;0f[42m[30mProgress: [ 13%][49m[39m [###################...................................................................................................................................] 8Selecting previously unselected package tzdata.
+Preparing to unpack .../03-tzdata_2022g-0ubuntu0.20.04.1_all.deb ...
+7[11;0f[42m[30mProgress: [ 16%][49m[39m [#######################...............................................................................................................................] 8Unpacking tzdata (2022g-0ubuntu0.20.04.1) ...
+7[11;0f[42m[30mProgress: [ 18%][49m[39m [##########################............................................................................................................................] 8Selecting previously unselected package libicu66:arm64.
+Preparing to unpack .../04-libicu66_66.1-2ubuntu2.1_arm64.deb ...
+7[11;0f[42m[30mProgress: [ 20%][49m[39m [##############################........................................................................................................................] 8Unpacking libicu66:arm64 (66.1-2ubuntu2.1) ...
+7[11;0f[42m[30mProgress: [ 22%][49m[39m [#################################.....................................................................................................................] 8Selecting previously unselected package libuv1:arm64.
+Preparing to unpack .../05-libuv1_1.34.2-1ubuntu1.3_arm64.deb ...
+7[11;0f[42m[30mProgress: [ 24%][49m[39m [####################################..................................................................................................................] 8Unpacking libuv1:arm64 (1.34.2-1ubuntu1.3) ...
+7[11;0f[42m[30mProgress: [ 27%][49m[39m [#######################################...............................................................................................................] 8Selecting previously unselected package libnghttp2-14:arm64.
+Preparing to unpack .../06-libnghttp2-14_1.40.0-1build1_arm64.deb ...
+7[11;0f[42m[30mProgress: [ 29%][49m[39m [###########################################...........................................................................................................] 8Unpacking libnghttp2-14:arm64 (1.40.0-1build1) ...
+7[11;0f[42m[30mProgress: [ 31%][49m[39m [##############################################........................................................................................................] 8Selecting previously unselected package libc-ares2:arm64.
+Preparing to unpack .../07-libc-ares2_1.15.0-1ubuntu0.1_arm64.deb ...
+7[11;0f[42m[30mProgress: [ 33%][49m[39m [#################################################.....................................................................................................] 8Unpacking libc-ares2:arm64 (1.15.0-1ubuntu0.1) ...
+7[11;0f[42m[30mProgress: [ 36%][49m[39m [#####################################################.................................................................................................] 8Selecting previously unselected package libnode64:arm64.
+Preparing to unpack .../08-libnode64_10.19.0~dfsg-3ubuntu1_arm64.deb ...
+7[11;0f[42m[30mProgress: [ 38%][49m[39m [########################################################..............................................................................................] 8Unpacking libnode64:arm64 (10.19.0~dfsg-3ubuntu1) ...
+7[11;0f[42m[30mProgress: [ 40%][49m[39m [############################################################..........................................................................................] 8Selecting previously unselected package nodejs-doc.
+Preparing to unpack .../09-nodejs-doc_10.19.0~dfsg-3ubuntu1_all.deb ...
+7[11;0f[42m[30mProgress: [ 42%][49m[39m [###############################################################.......................................................................................] 8Unpacking nodejs-doc (10.19.0~dfsg-3ubuntu1) ...
+7[11;0f[42m[30mProgress: [ 44%][49m[39m [##################################################################....................................................................................] 8Selecting previously unselected package nodejs.
+Preparing to unpack .../10-nodejs_10.19.0~dfsg-3ubuntu1_arm64.deb ...
+7[11;0f[42m[30mProgress: [ 47%][49m[39m [######################################################################................................................................................] 8Unpacking nodejs (10.19.0~dfsg-3ubuntu1) ...
+7[11;0f[42m[30mProgress: [ 49%][49m[39m [#########################################################################.............................................................................] 8Setting up libssl1.1:arm64 (1.1.1f-1ubuntu2.17) ...
+7[11;0f[42m[30mProgress: [ 51%][49m[39m [############################################################################..........................................................................] 8debconf: unable to initialize frontend: Dialog
+debconf: (No usable dialog-like program is installed, so the dialog based frontend cannot be used. at /usr/share/perl5/Debconf/FrontEnd/Dialog.pm line 76.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/aarch64-linux-gnu/perl/5.30.0 /usr/local/share/perl/5.30.0 /usr/lib/aarch64-linux-gnu/perl5/5.30 /usr/share/perl5 /usr/lib/aarch64-linux-gnu/perl/5.30 /usr/share/perl/5.30 /usr/local/lib/site_perl /usr/lib/aarch64-linux-gnu/perl-base) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+debconf: falling back to frontend: Teletype
+7[11;0f[42m[30mProgress: [ 53%][49m[39m [###############################################################################.......................................................................] 8Setting up libnghttp2-14:arm64 (1.40.0-1build1) ...
+7[11;0f[42m[30mProgress: [ 56%][49m[39m [###################################################################################...................................................................] 87[11;0f[42m[30mProgress: [ 58%][49m[39m [######################################################################################................................................................] 8Setting up libc-ares2:arm64 (1.15.0-1ubuntu0.1) ...
+7[11;0f[42m[30mProgress: [ 60%][49m[39m [##########################################################################################............................................................] 87[11;0f[42m[30mProgress: [ 62%][49m[39m [#############################################################################################.........................................................] 8Setting up tzdata (2022g-0ubuntu0.20.04.1) ...
+7[11;0f[42m[30mProgress: [ 64%][49m[39m [################################################################################################......................................................] 8debconf: unable to initialize frontend: Dialog
+debconf: (No usable dialog-like program is installed, so the dialog based frontend cannot be used. at /usr/share/perl5/Debconf/FrontEnd/Dialog.pm line 76.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/aarch64-linux-gnu/perl/5.30.0 /usr/local/share/perl/5.30.0 /usr/lib/aarch64-linux-gnu/perl5/5.30 /usr/share/perl5 /usr/lib/aarch64-linux-gnu/perl/5.30 /usr/share/perl/5.30 /usr/local/lib/site_perl /usr/lib/aarch64-linux-gnu/perl-base) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+debconf: falling back to frontend: Teletype
+Configuring tzdata
+------------------
+
+Please select the geographic area in which you live. Subsequent configuration questions will narrow this down by presenting a list of cities, representing the time zones
+in which they are located.
+
+  1. Africa  2. America  3. Antarctica  4. Australia  5. Arctic  6. Asia  7. Atlantic  8. Europe  9. Indian  10. Pacific  11. SystemV  12. US  13. Etc
+Geographic area: node 0 -v
+
+Geographic area: 8
+
+Please select the city or region corresponding to your time zone.
+
+  1. Amsterdam  7. Berlin      13. Chisinau    19. Isle_of_Man  25. Lisbon      31. Mariehamn  37. Paris      43. San_Marino  49. Stockholm  55. Vaduz      61. Zagreb
+  2. Andorra    8. Bratislava  14. Copenhagen  20. Istanbul     26. Ljubljana   32. Minsk      38. Podgorica  44. Sarajevo    50. Tallinn    56. Vatican    62. Zaporozhye
+  3. Astrakhan  9. Brussels    15. Dublin      21. Jersey       27. London      33. Monaco     39. Prague     45. Saratov     51. Tirane     57. Vienna     63. Zurich
+  4. Athens     10. Bucharest  16. Gibraltar   22. Kaliningrad  28. Luxembourg  34. Moscow     40. Riga       46. Simferopol  52. Tiraspol   58. Vilnius
+  5. Belfast    11. Budapest   17. Guernsey    23. Kirov        29. Madrid      35. Nicosia    41. Rome       47. Skopje      53. Ulyanovsk  59. Volgograd
+[More] 50
+
+  6. Belgrade   12. Busingen   18. Helsinki    24. Kyiv         30. Malta       36. Oslo       42. Samara     48. Sofia       54. Uzhgorod   60. Warsaw
+Time zone: 18
+
+
+Current default time zone: 'Europe/Helsinki'
+Local time is now:      Tue Feb 14 10:54:01 EET 2023.
+Universal Time is now:  Tue Feb 14 08:54:01 UTC 2023.
+Run 'dpkg-reconfigure tzdata' if you wish to change it.
+
+7[11;0f[42m[30mProgress: [ 67%][49m[39m [###################################################################################################...................................................] 8Setting up libuv1:arm64 (1.34.2-1ubuntu1.3) ...
+7[11;0f[42m[30mProgress: [ 69%][49m[39m [#######################################################################################################...............................................] 87[11;0f[42m[30mProgress: [ 71%][49m[39m [##########################################################################################################............................................] 8Setting up nodejs-doc (10.19.0~dfsg-3ubuntu1) ...
+7[11;0f[42m[30mProgress: [ 73%][49m[39m [##############################################################################################################........................................] 87[11;0f[42m[30mProgress: [ 76%][49m[39m [#################################################################################################################.....................................] 8Setting up openssl (1.1.1f-1ubuntu2.17) ...
+7[11;0f[42m[30mProgress: [ 78%][49m[39m [####################################################################################################################..................................] 87[11;0f[42m[30mProgress: [ 80%][49m[39m [########################################################################################################################..............................] 8Setting up libicu66:arm64 (66.1-2ubuntu2.1) ...
+7[11;0f[42m[30mProgress: [ 82%][49m[39m [###########################################################################################################################...........................] 87[11;0f[42m[30mProgress: [ 84%][49m[39m [##############################################################################################################################........................] 8Setting up ca-certificates (20211016ubuntu0.20.04.1) ...
+7[11;0f[42m[30mProgress: [ 87%][49m[39m [#################################################################################################################################.....................] 8debconf: unable to initialize frontend: Dialog
+debconf: (No usable dialog-like program is installed, so the dialog based frontend cannot be used. at /usr/share/perl5/Debconf/FrontEnd/Dialog.pm line 76.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/aarch64-linux-gnu/perl/5.30.0 /usr/local/share/perl/5.30.0 /usr/lib/aarch64-linux-gnu/perl5/5.30 /usr/share/perl5 /usr/lib/aarch64-linux-gnu/perl/5.30 /usr/share/perl/5.30 /usr/local/lib/site_perl /usr/lib/aarch64-linux-gnu/perl-base) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+debconf: falling back to frontend: Teletype
+Updating certificates in /etc/ssl/certs...
+124 added, 0 removed; done.
+7[11;0f[42m[30mProgress: [ 89%][49m[39m [#####################################################################################################################################.................] 8Setting up libnode64:arm64 (10.19.0~dfsg-3ubuntu1) ...
+7[11;0f[42m[30mProgress: [ 89%][49m[39m [######################################################################################################################################................] 8Setting up nodejs (10.19.0~dfsg-3ubuntu1) ...
+7[11;0f[42m[30mProgress: [ 91%][49m[39m [#########################################################################################################################################.............] 8update-alternatives: using /usr/bin/nodejs to provide /usr/bin/js (js) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/js.1.gz because associated file /usr/share/man/man1/nodejs.1.gz (of link group js) doesn't exist
+7[11;0f[42m[30mProgress: [ 94%][49m[39m [############################################################################################################################################..........] 8Processing triggers for libc-bin (2.31-0ubuntu9.7) ...
+Processing triggers for ca-certificates (20211016ubuntu0.20.04.1) ...
+7[11;0f[42m[30mProgress: [ 96%][49m[39m [###############################################################################################################################################.......] 8Updating certificates in /etc/ssl/certs...
+0 added, 0 removed; done.
+Running hooks in /etc/ca-certificates/update.d...
+done.
+7[11;0f[42m[30mProgress: [ 98%][49m[39m [##################################################################################################################################################....] 8
+7[0;11r8[1A[J]0;root@89e9d564d910: /usr/src/approot@89e9d564d910:/usr/src/app# nove    de -v
+v10.19.0
+]0;root@89e9d564d910: /usr/src/approot@89e9d564d910:/usr/src/app# node index.js 
+Hello World
+]0;root@89e9d564d910: /usr/src/approot@89e9d564d910:/usr/src/app# node index.js -v[Kapt install nodejs[11Pnode -vapt install nodejs[11Pnode -vindex.js [Kexit
+exit
+[1m[7m%[27m[1m[0m                                                                                                                                                                            [0m[27m[24m[Jrohal@Dominiks-MacBook-Air script-answers % [K[?2004h[?2004l
+
+Script done on Tue Feb 14 10:56:35 2023
