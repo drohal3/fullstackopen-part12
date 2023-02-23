@@ -3,8 +3,8 @@ services:
   app:
     image: todo-frontend-dev
     build:
-      context: . # The context will pick this directory as the "build context"
-      dockerfile: ./todo-frontend/dev.Dockerfile # This will simply tell which dockerfile to read
+      context: ./todo-frontend/ # The context will pick this directory as the "build context"
+      dockerfile: dev.Dockerfile # This will simply tell which dockerfile to read
     volumes:
       - ./todo-frontend/:/usr/src/app # The path can be relative, so ./ is enough to say "the same location as the docker-compose.yml"
     ports:
@@ -40,16 +40,14 @@ services:
     ports:
       - 3000:3000
     build:
-      context: . # The context will pick this directory as the "build context"
-      dockerfile: ./todo-backend/dev.Dockerfile # This will simply tell which dockerfile to read
+      context: ./todo-backend/ # The context will pick this directory as the "build context"
+      dockerfile: dev.Dockerfile # This will simply tell which dockerfile to read
     environment:
       REDIS_URL: redis://redis:6379
       MONGO_URL: mongodb://the_username:the_password@mongo:27017/the_database # THE port mapping - container port must be used!
     volumes: # Declare the volume
       - ./todo-backend/:/usr/src/app
     container_name: todo-backend-dev
-
-
 #  reverse proxy
   nginx:
     image: nginx:1.20.1
